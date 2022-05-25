@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 let MY_TABLE_VIEW_CELL_ID = "myTableViewCell"
 
@@ -23,21 +24,22 @@ class ViewController: UIViewController {
         switch sender {
         case prependButton:
             print("앞에추가")
-            self.prependData()
+            self.viewModel.prependData()
         case resetButton:
             print("리셋")
-            self.resetData()
+            self.viewModel.resetData()
         case appendButton:
             print("뒤에추가")
-            self.appendData()
+            self.viewModel.appendData()
         default: break
         }
     }
     
-    var appendingCount: Int = 0
-    var prependingCount: Int = 0
-    var prependingArray = ["1 앞에 추가","2 앞에 추가","3 앞에 추가","4 앞에 추가","5 앞에 추가"]
-    var addingArray = ["1 뒤에 추가","2 뒤에 추가","3 뒤에 추가","4 뒤에 추가","5 뒤에 추가"]
+    var viewModel: ViewModel = ViewModel()
+    
+    //데이타를 메모리에서 날림.
+    var disposalbleBag = Set<AnyCancellable>()
+    
     var tempArray : [String] = []
     
     override func viewDidLoad() {
@@ -56,38 +58,43 @@ class ViewController: UIViewController {
         self.myTableView.delegate = self
         self.myTableView.dataSource = self
         
+        //뷰모델의 데이터 상태를 연동시킨다.
+        self.setBindings()
     }
 
 }
 
+//MARK: - 뷰모델 관련
+extension ViewController {
+    ///뷰모델의 데이터를 뷰컨의 리스트 데이터와 연동
+    fileprivate func setBindings(){
+        print("ViewController - setBindings()")
+        
+        //sink 는 구독, 이벤트 받는다. list에 대한 바인딩
+        self.viewModel.$tempArray.sink{ (updatedList : [String]) in
+            print("ViewController - updatedList.count: \(updatedList.count)")
+            self.tempArray = updatedList
+//            self.myTableView.reloadData()
+        }.store(in: &disposalbleBag)
+        
+        //action에 대한 바인딩
+        self.viewModel.dateUpdatedAction.sink{ (addingType : ViewModel.AddingType) in
+            print("ViewController - dataUpdatedAction.count: \(addingType)")
+            switch addingType {
+//            case .append:
+//                self.myTableView.reloadData()
+            case .prepend:
+                self.myTableView.reloadDataAndKeepOffset()
+            default:
+                self.myTableView.reloadData()
+            
+            }
+        }.store(in: &disposalbleBag)
+    }
+}
 //MARK: - 테이블뷰 관련 메서드
 extension ViewController {
-    fileprivate func prependData() {
-        print(#fileID, #function, #line)
-        
-        prependingCount = prependingCount + 1
-        let tempPrependingArray = prependingArray.map{ $0.appending(String(prependingCount)) }
-        self.tempArray.insert(contentsOf: tempPrependingArray, at: 0)
-        //self.myTableView.reloadData()
-        self.myTableView.reloadDataAndKeepOffset()
-    }
-    fileprivate func appendData() {
-        print(#fileID, #function, #line)
-        appendingCount = appendingCount + 1
 
-        let tempAddingArray = addingArray.map{ $0.appending(String(appendingCount)) }
-
-        self.tempArray += tempAddingArray
-        self.myTableView.reloadData()
-
-    }
-    fileprivate func resetData() {
-        print(#fileID, #function, #line)
-        appendingCount = 0
-        prependingCount = 0
-        tempArray = []
-        self.myTableView.reloadData()
-    }
 }
 extension ViewController: UITableViewDelegate {
 
@@ -123,6 +130,8 @@ extension UITableView {
         layoutIfNeeded()
         //데이터 추가후 컨텐츠 사이즈
         let afterContentSize = contentSize
+        print("contentOffset",contentOffset)
+        print("afterContentSize",afterContentSize)
         //데이타가 변경되고 리로드 되고 나서 컨텐트 옵셋 계산 및 설정
         let calculateNewOffset = CGPoint(
             x: contentOffset.x + (afterContentSize.width - beforeContentSize.width),

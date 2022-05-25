@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B9D5AFDD283C6A5D0079EFB7 /* MyHeartBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5AFDC283C6A5D0079EFB7 /* MyHeartBtn.swift */; };
+		B9F459A9283DA9910053B753 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F459A8283DA9910053B753 /* ViewModel.swift */; };
 		F2971A6F24FE815500955157 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2971A6E24FE815500955157 /* AppDelegate.swift */; };
 		F2971A7124FE815500955157 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2971A7024FE815500955157 /* SceneDelegate.swift */; };
 		F2971A7324FE815500955157 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2971A7224FE815500955157 /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		B9D5AFDC283C6A5D0079EFB7 /* MyHeartBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHeartBtn.swift; sourceTree = "<group>"; };
+		B9F459A8283DA9910053B753 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		F2971A6B24FE815500955157 /* AddData_table_view.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AddData_table_view.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2971A6E24FE815500955157 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F2971A7024FE815500955157 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				F2971A7924FE815700955157 /* LaunchScreen.storyboard */,
 				F2971A7C24FE815700955157 /* Info.plist */,
 				B9D5AFDC283C6A5D0079EFB7 /* MyHeartBtn.swift */,
+				B9F459A8283DA9910053B753 /* ViewModel.swift */,
 			);
 			path = AddData_table_view;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 				B9D5AFDD283C6A5D0079EFB7 /* MyHeartBtn.swift in Sources */,
 				F2971A8724FE86ED00955157 /* MyTableViewCell.swift in Sources */,
 				F2971A6F24FE815500955157 /* AppDelegate.swift in Sources */,
+				B9F459A9283DA9910053B753 /* ViewModel.swift in Sources */,
 				F2971A7124FE815500955157 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
